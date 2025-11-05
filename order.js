@@ -1,9 +1,7 @@
 // Order Page Functionality
 
-// WooCommerce API Configuration
-const WOOCOMMERCE_URL = 'https://vitasynlabs.com';
-const CONSUMER_KEY = 'ck_a4b4226fbbdff41fd6d7faba18a10b3ebc3004cb';
-const CONSUMER_SECRET = 'cs_30cb119423d871d615d87ac96c23420dad3c8e1e';
+// WooCommerce products are now proxied through Netlify Functions to avoid CORS issues
+const PRODUCTS_FUNCTION_ENDPOINT = '/.netlify/functions/products';
 
 // Product data storage
 let allProducts = [];
@@ -233,10 +231,13 @@ async function loadAllProducts() {
     }
     
     try {
-        const url = `${WOOCOMMERCE_URL}/wp-json/wc/v3/products?consumer_key=${CONSUMER_KEY}&consumer_secret=${CONSUMER_SECRET}&per_page=100&status=publish`;
-        const response = await fetch(url);
+        const response = await fetch(PRODUCTS_FUNCTION_ENDPOINT);
 
-        if (!response.ok) throw new Error(`API Error: ${response.status}`);
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            console.error('API Error:', response.status, errorData);
+            throw new Error(`API Error: ${response.status} - ${errorData.message || 'Unknown error'}`);
+        }
 
         const products = await response.json();
         allProducts = products;
@@ -246,7 +247,7 @@ async function loadAllProducts() {
         displayStackProducts();
     } catch (error) {
         console.error('Error loading products:', error);
-        displayError();
+        displayError('Unable to load live products. Please try again later.');
     }
 }
 
@@ -419,13 +420,13 @@ function performSearch() {
     displayAllProducts(filteredProducts);
 }
 
-function displayError() {
+function displayError(message = 'Please try again later') {
     const productGrid = document.getElementById('product-grid');
     if (productGrid) {
         productGrid.innerHTML = `
             <div class="no-results">
                 <h3 class="no-results-title">UNABLE TO LOAD PRODUCTS</h3>
-                <p class="no-results-text">Please try again later</p>
+                <p class="no-results-text">${message}</p>
             </div>
         `;
     }
