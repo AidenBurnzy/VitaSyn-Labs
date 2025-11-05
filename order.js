@@ -550,12 +550,25 @@ function initAgeGate() {
     const ageGate = document.querySelector('.age-gate');
     if (!ageGate) return null;
 
+    // Check both localStorage (long-term) and sessionStorage (this tab session)
+    const hasVerifiedPermanent = localStorage.getItem('age_verified');
+    const hasVerifiedSession = sessionStorage.getItem('age_verified');
+    
+    if (hasVerifiedPermanent === 'true' && hasVerifiedSession === 'true') {
+        ageGate.classList.add('hidden');
+        document.body.classList.remove('notice-locked');
+        return null;
+    }
+
     const yesBtn = document.getElementById('age-verify-yes');
     const noBtn = document.getElementById('age-verify-no');
 
     const closeGate = () => {
         ageGate.classList.add('hidden');
         document.body.classList.remove('notice-locked');
+        // Save to both localStorage (permanent) and sessionStorage (cleared on hard refresh)
+        localStorage.setItem('age_verified', 'true');
+        sessionStorage.setItem('age_verified', 'true');
     };
 
     const openGate = () => {
@@ -578,6 +591,16 @@ function initResearchNotice(onContinue) {
     const notice = document.querySelector('.research-notice');
     if (!notice) return;
 
+    // Check both localStorage (long-term) and sessionStorage (this tab session)
+    const hasAcceptedPermanent = localStorage.getItem('research_notice_accepted');
+    const hasAcceptedSession = sessionStorage.getItem('research_notice_accepted');
+    
+    if (hasAcceptedPermanent === 'true' && hasAcceptedSession === 'true') {
+        notice.classList.add('hidden');
+        document.body.classList.remove('notice-locked');
+        return;
+    }
+
     const continueBtn = document.getElementById('notice-continue');
     const exitBtn = document.getElementById('notice-exit');
 
@@ -587,6 +610,9 @@ function initResearchNotice(onContinue) {
     continueBtn.addEventListener('click', () => {
         notice.classList.add('hidden');
         document.body.classList.remove('notice-locked');
+        // Save to both localStorage (permanent) and sessionStorage (cleared on hard refresh)
+        localStorage.setItem('research_notice_accepted', 'true');
+        sessionStorage.setItem('research_notice_accepted', 'true');
         if (typeof onContinue === 'function') onContinue();
     });
 

@@ -83,6 +83,16 @@ function initResearchNotice(onContinue) {
     const notice = document.querySelector('.research-notice');
     if (!notice) return;
 
+    // Check both localStorage (long-term) and sessionStorage (this tab session)
+    const hasAcceptedPermanent = localStorage.getItem('research_notice_accepted');
+    const hasAcceptedSession = sessionStorage.getItem('research_notice_accepted');
+    
+    if (hasAcceptedPermanent === 'true' && hasAcceptedSession === 'true') {
+        notice.classList.add('hidden');
+        document.body.classList.remove('notice-locked');
+        return;
+    }
+
     const continueBtn = document.getElementById('notice-continue');
     const exitBtn = document.getElementById('notice-exit');
     const message = notice.querySelector('.notice-message');
@@ -98,6 +108,9 @@ function initResearchNotice(onContinue) {
     const closeNotice = () => {
         notice.classList.add('hidden');
         document.body.classList.remove('notice-locked');
+        // Save to both localStorage (permanent) and sessionStorage (cleared on hard refresh)
+        localStorage.setItem('research_notice_accepted', 'true');
+        sessionStorage.setItem('research_notice_accepted', 'true');
     };
 
     continueBtn.addEventListener('click', () => {
@@ -118,6 +131,16 @@ function initAgeGate() {
     const ageGate = document.querySelector('.age-gate');
     if (!ageGate) return null;
 
+    // Check both localStorage (long-term) and sessionStorage (this tab session)
+    const hasVerifiedPermanent = localStorage.getItem('age_verified');
+    const hasVerifiedSession = sessionStorage.getItem('age_verified');
+    
+    if (hasVerifiedPermanent === 'true' && hasVerifiedSession === 'true') {
+        ageGate.classList.add('hidden');
+        document.body.classList.remove('notice-locked');
+        return null;
+    }
+
     const yesBtn = document.getElementById('age-verify-yes');
     const noBtn = document.getElementById('age-verify-no');
     const message = ageGate.querySelector('.age-gate-message');
@@ -127,6 +150,9 @@ function initAgeGate() {
     const closeGate = () => {
         ageGate.classList.add('hidden');
         document.body.classList.remove('notice-locked');
+        // Save to both localStorage (permanent) and sessionStorage (cleared on hard refresh)
+        localStorage.setItem('age_verified', 'true');
+        sessionStorage.setItem('age_verified', 'true');
     };
 
     const openGate = () => {
@@ -363,6 +389,38 @@ function openProductDetail(product) {
     });
 }
 
+// Make product cards clickable on home page
+function initProductCards() {
+    const productCards = document.querySelectorAll('.product-card');
+    
+    console.log('Found product cards:', productCards.length);
+    
+    productCards.forEach((card, index) => {
+        // Make cards clickable
+        card.style.cursor = 'pointer';
+        
+        card.addEventListener('click', (e) => {
+            console.log('Product card clicked:', index);
+            e.preventDefault();
+            e.stopPropagation();
+            // Redirect to order page
+            window.location.href = 'order.html';
+        });
+        
+        // Add hover effect
+        card.addEventListener('mouseenter', () => {
+            card.style.transform = 'translateY(-5px)';
+            card.style.transition = 'transform 0.3s ease';
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'translateY(0)';
+        });
+    });
+    
+    console.log('Product cards initialized');
+}
+
 // Initialize everything when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
     const openAgeGate = initAgeGate();
@@ -375,6 +433,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initSmoothScroll();
     initNewsletter();
     initNavbarScroll();
+    initProductCards(); // Add click functionality to product cards
     
     console.log('VitaSyn Labs Website Loaded');
 });

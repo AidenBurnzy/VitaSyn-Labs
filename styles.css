@@ -519,9 +519,19 @@ body.notice-locked {
     gap: 60px;
 }
 
+.product-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
 .product-card {
     cursor: pointer;
     transition: transform 0.3s;
+}
+
+.product-card-link:hover .product-card {
+    transform: translateY(-5px);
 }
 
 .product-card:hover {
