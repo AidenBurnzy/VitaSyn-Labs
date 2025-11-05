@@ -238,18 +238,15 @@ function initNavbarScroll() {
     });
 }
 
-// WooCommerce API Integration
-const WOOCOMMERCE_URL = 'https://vitasynlabs.com';
-const CONSUMER_KEY = 'ck_a4b4226fbbdff41fd6d7faba18a10b3ebc3004cb';
-const CONSUMER_SECRET = 'cs_30cb119423d871d615d87ac96c23420dad3c8e1e';
-
+// WooCommerce API Integration via Netlify Function
 let allProducts = []; // Store all products globally
 
 async function loadWooCommerceProducts() {
     try {
         console.log('Fetching products from WooCommerce...');
         
-        const url = `${WOOCOMMERCE_URL}/wp-json/wc/v3/products?consumer_key=${CONSUMER_KEY}&consumer_secret=${CONSUMER_SECRET}&per_page=50&status=publish`;
+        // Use Netlify Function instead of direct API call
+        const url = '/.netlify/functions/products';
         
         const response = await fetch(url);
 
@@ -269,6 +266,8 @@ async function loadWooCommerceProducts() {
         }
     } catch (error) {
         console.error('Error loading products:', error);
+        // Fallback: show static products if API fails
+        console.log('Showing static product cards as fallback');
     }
 }
 
