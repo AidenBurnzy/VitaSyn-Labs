@@ -12,8 +12,9 @@ yarn-error.log
 
 # Netlify
 .netlify/
-netlify/
-# BUT keep netlify/functions/ tracked
+# Keep netlify/functions/ tracked for serverless functions
+!netlify/
+netlify/*
 !netlify/functions/
 
 # Operating System Files

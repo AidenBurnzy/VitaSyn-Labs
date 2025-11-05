@@ -251,7 +251,9 @@ async function loadWooCommerceProducts() {
         const response = await fetch(url);
 
         if (!response.ok) {
-            throw new Error(`API Error: ${response.status}`);
+            const errorData = await response.json().catch(() => ({}));
+            console.error('API Error:', response.status, errorData);
+            throw new Error(`API Error: ${response.status} - ${errorData.message || 'Unknown error'}`);
         }
 
         const products = await response.json();
@@ -262,12 +264,35 @@ async function loadWooCommerceProducts() {
         if (products && products.length > 0) {
             displayWooCommerceProducts(products);
         } else {
-            console.log('No products found');
+            console.log('No products found from API');
+            showProductLoadError('No products available at this time.');
         }
     } catch (error) {
         console.error('Error loading products:', error);
-        // Fallback: show static products if API fails
-        console.log('Showing static product cards as fallback');
+        // Fallback: Keep static HTML products visible and show a subtle notice
+        console.log('Keeping static product cards as fallback');
+        showProductLoadError('Unable to load live products. Showing catalog products.');
+    }
+}
+
+function showProductLoadError(message) {
+    const productGrid = document.querySelector('.product-grid');
+    if (!productGrid) return;
+    
+    // Check if there are existing static products
+    const existingProducts = productGrid.querySelectorAll('.product-card');
+    
+    if (existingProducts.length === 0) {
+        // No fallback products, show error
+        productGrid.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                <p style="color: #666; font-size: 18px;">${message}</p>
+                <p style="color: #999; font-size: 14px; margin-top: 10px;">Please try refreshing the page or contact support.</p>
+            </div>
+        `;
+    } else {
+        // Static products exist, just log the issue
+        console.log('Static products are displayed as fallback');
     }
 }
 
