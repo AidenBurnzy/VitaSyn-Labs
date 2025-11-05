@@ -239,24 +239,76 @@ function initNavbarScroll() {
 }
 
 // WooCommerce API Integration via Netlify Function
+const PRODUCT_ENDPOINTS = resolveProductEndpoints();
 let allProducts = []; // Store all products globally
+
+function resolveProductEndpoints() {
+    const endpoints = [];
+    const searchParams = new URLSearchParams(window.location.search);
+    const overrideHost = window.NETLIFY_FUNCTION_HOST || searchParams.get('functionHost');
+
+    if (overrideHost) {
+        endpoints.push(`${overrideHost.replace(/\/$/, '')}/.netlify/functions/products`);
+    }
+
+    const host = window.location.hostname || '';
+    if (!overrideHost) {
+        if (
+            host === '' ||
+            host === 'localhost' ||
+            host === '127.0.0.1' ||
+            host.endsWith('.netlify.app') ||
+            host.endsWith('.netlify.live') ||
+            host.endsWith('.netlify.dev') ||
+            host.endsWith('vitasynlabs.com')
+        ) {
+            endpoints.push('/.netlify/functions/products');
+        }
+    }
+
+    const fallbackHost = 'https://vitasynlabs.netlify.app';
+    const fallbackEndpoint = `${fallbackHost}/.netlify/functions/products`;
+    if (!endpoints.includes(fallbackEndpoint)) {
+        endpoints.push(fallbackEndpoint);
+    }
+
+    return endpoints;
+}
+
+async function fetchProductsFromEndpoints() {
+    const failures = [];
+
+    for (const endpoint of PRODUCT_ENDPOINTS) {
+        try {
+            const response = await fetch(endpoint);
+
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                const message = `API Error: ${response.status} - ${errorData.message || response.statusText || 'Unknown error'}`;
+                failures.push({ endpoint, message });
+                console.error('Product fetch error:', endpoint, message);
+                continue;
+            }
+
+            console.log(`Products loaded from ${endpoint}`);
+            return await response.json();
+        } catch (err) {
+            const message = err && err.message ? err.message : 'Network error';
+            failures.push({ endpoint, message });
+            console.error('Product fetch error:', endpoint, message);
+        }
+    }
+
+    const error = new Error('All product endpoints failed');
+    error.causes = failures;
+    throw error;
+}
 
 async function loadWooCommerceProducts() {
     try {
         console.log('Fetching products from WooCommerce...');
         
-        // Use Netlify Function instead of direct API call
-        const url = '/.netlify/functions/products';
-        
-        const response = await fetch(url);
-
-        if (!response.ok) {
-            const errorData = await response.json().catch(() => ({}));
-            console.error('API Error:', response.status, errorData);
-            throw new Error(`API Error: ${response.status} - ${errorData.message || 'Unknown error'}`);
-        }
-
-        const products = await response.json();
+        const products = await fetchProductsFromEndpoints();
         console.log('Products loaded:', products);
         
         allProducts = products; // Store globally
@@ -271,7 +323,16 @@ async function loadWooCommerceProducts() {
         console.error('Error loading products:', error);
         // Fallback: Keep static HTML products visible and show a subtle notice
         console.log('Keeping static product cards as fallback');
-        showProductLoadError('Unable to load live products. Showing catalog products.');
+        let fallbackNotice = 'Unable to load live products. Showing catalog products.';
+
+        if (error && Array.isArray(error.causes)) {
+            const details = error.causes.map(cause => `${cause.endpoint}: ${cause.message}`).join(' | ');
+            fallbackNotice += ` Details: ${details}`;
+        } else {
+            fallbackNotice += ' (Tip: append ?functionHost=https://vitasynlabs.netlify.app when previewing off Netlify.)';
+        }
+
+        showProductLoadError(fallbackNotice);
     }
 }
 
