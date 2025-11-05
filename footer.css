@@ -1,6 +1,6 @@
 /* Footer Styles */
 .peptide-footer {
-    background: linear-gradient(135deg, #1a2b5e 0%, #2d4a8f 100%);
+    background: linear-gradient(135deg, #0f0f0f 0%, #2b2b2b 100%);
     color: #ffffff;
     font-family: Arial, Helvetica, sans-serif;
     padding: 0;
@@ -191,7 +191,7 @@
 
 /* Legal Section */
 .footer-legal {
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.45);
     padding: 40px;
 }
 
@@ -219,7 +219,7 @@
 
 /* Copyright */
 .footer-bottom {
-    background: rgba(0, 0, 0, 0.3);
+    background: #0a0a0a;
     padding: 20px;
     text-align: center;
 }

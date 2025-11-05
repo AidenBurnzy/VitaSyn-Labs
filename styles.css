@@ -188,9 +188,22 @@ body.notice-locked {
 
 /* Carousel Section */
 .carousel-section {
-    margin-top: 170px;
+    --carousel-offset: 170px;
+    margin-top: var(--carousel-offset);
     height: 70vh;
     position: relative;
+}
+
+.carousel-section::before {
+    content: '';
+    position: absolute;
+    top: calc(-1 * var(--carousel-offset));
+    left: 0;
+    right: 0;
+    height: var(--carousel-offset);
+    background: linear-gradient(160deg, #050505 0%, #0a0a0a 60%, #111111 100%);
+    pointer-events: none;
+    z-index: -1;
 }
 
 .carousel {
@@ -326,9 +339,9 @@ body.notice-locked {
 
 /* Premium Why Choose Us Banner */
 .why-choose-banner {
-    background: linear-gradient(rgb(255, 255, 255), #e0e0e0);
+    background: #ffffff;
     padding: 80px 20px;
-    margin: 60px 0;
+    margin: 0 0 60px;
     position: relative;
     overflow: hidden;
 }
@@ -336,21 +349,28 @@ body.notice-locked {
 .why-choose-banner::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, #000000, transparent);
+    inset: -10% -15%;
+    background-image:
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 400'><path d='M-20 260 C 100 140 200 320 320 210 S 520 120 660 210 860 260 820 120' fill='none' stroke='%23125bff' stroke-width='28' stroke-opacity='0.78' stroke-linecap='round'/></svg>"),
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 400'><path d='M-40 120 C 120 40 220 260 380 150 S 580 20 720 210 900 320 780 320' fill='none' stroke='%23ff7a00' stroke-width='26' stroke-opacity='0.72' stroke-linecap='round'/></svg>");
+    background-repeat: no-repeat;
+    background-size: 120% 70%, 135% 80%;
+    background-position: 10% 35%, 60% 75%;
+    filter: saturate(150%);
+    opacity: 0.95;
+    pointer-events: none;
+    transform: rotate(-2deg);
 }
 
 .why-choose-banner::after {
     content: '';
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, #000000, transparent);
+    inset: 0;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.88) 55%, rgba(255, 255, 255, 0.95) 100%),
+        radial-gradient(circle at 20% 20%, rgba(28, 90, 255, 0.18), transparent 55%),
+        radial-gradient(circle at 80% 85%, rgba(255, 136, 0, 0.16), transparent 60%);
+    pointer-events: none;
 }
 
 .why-choose-banner-inner {
@@ -360,6 +380,8 @@ body.notice-locked {
     justify-content: space-between;
     gap: 50px;
     flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
 }
 
 .why-choose-item {
@@ -439,7 +461,7 @@ body.notice-locked {
     margin-bottom: 20px;
     letter-spacing: 2px;
     text-transform: uppercase;
-    background: linear-gradient(135deg, #c9a961 0%, #f4e4b8 50%, #c9a961 100%);
+    background: linear-gradient(135deg, #ffcd43 0%, #289eff 50%, #ffc252 100%);
     background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -675,7 +697,7 @@ body.notice-locked {
 
 @media (max-width: 992px) {
     .carousel-section {
-        margin-top: 150px;
+        --carousel-offset: 150px;
         height: 60vh;
     }
 
@@ -725,7 +747,7 @@ body.notice-locked {
 
 @media (max-width: 768px) {
     .carousel-section {
-        margin-top: 200px;
+        --carousel-offset: 200px;
         height: auto;
         min-height: 60vh;
     }
