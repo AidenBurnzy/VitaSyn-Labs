@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peptide Storage Guidelines | VitaSyn Labs</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="navbar.css">
+    <link rel="stylesheet" href="footer.css">
+    <link rel="stylesheet" href="peptide-pages.css">
+</head>
+<body class="peptide-info-page peptide-storage-page">
+    <div id="navbar-container"></div>
+
+    <main class="info-page">
+        <section class="info-hero" id="overview">
+            <div class="info-hero-content">
+                <span class="info-badge">Storage Protocols</span>
+                <h1>Peptide Storage Best Practices</h1>
+                <p>Preserve peptide integrity by pairing precise temperature control with thoughtful handling habits. The guidelines below summarize the procedures our lab team relies on when maintaining research-grade materials.</p>
+            </div>
+        </section>
+
+        <section class="info-panels" aria-label="Storage environments">
+            <article class="info-panel">
+                <h2>-20&nbsp;°C &amp; Below</h2>
+                <p>Most lyophilized peptides remain stable for 12–24 months when stored in a frost-free, temperature-logged freezer.</p>
+                <ul class="info-list">
+                    <li>House vials in airtight secondary containers with desiccant packs.</li>
+                    <li>Log freezer openings and defrost cycles to flag excursions quickly.</li>
+                    <li>Allow vials to equilibrate to room temperature before breaking the vacuum seal to avoid condensation.</li>
+                </ul>
+            </article>
+
+            <article class="info-panel">
+                <h2>2–8&nbsp;°C Refrigeration</h2>
+                <p>Short-term storage for peptides prepared for upcoming experiments.</p>
+                <ul class="info-list">
+                    <li>Restrict residence time to &lt;30 days for lyophilized lots and &lt;7 days for reconstituted aliquots.</li>
+                    <li>Use light-protective sleeves when the sequence contains photolabile residues.</li>
+                    <li>Label vials with prep date, concentration, and technician initials.</li>
+                </ul>
+            </article>
+
+            <article class="info-panel">
+                <h2>Ambient Transit</h2>
+                <p>When shipping or staging at room temperature, reduce time out of controlled storage.</p>
+                <ul class="info-list">
+                    <li>Employ insulated shippers with cold packs for any transit exceeding four hours.</li>
+                    <li>Maintain chain-of-custody documentation that records hand-offs and arrival temperatures.</li>
+                    <li>Inspect vials upon receipt and return to cold storage immediately.</li>
+                </ul>
+            </article>
+        </section>
+
+        <section class="info-section" id="handling">
+            <h2>Controlled Handling Routine</h2>
+            <p>Schedule peptide retrievals to coincide with experimental prep windows. Minimize thermal cycling by pre-labeling racks, laying out dry ice, and staging diluents ahead of time. Every removal from cold storage should have a documented rationale.</p>
+
+            <div class="info-checklist" role="list">
+                <div class="info-checklist-item" role="listitem">Review storage log for recent excursions before opening the freezer.</div>
+                <div class="info-checklist-item" role="listitem">Wear powder-free gloves and change them after handling shipping materials.</div>
+                <div class="info-checklist-item" role="listitem">Wipe exterior vials with 70% IPA to remove frost and particulates prior to use.</div>
+                <div class="info-checklist-item" role="listitem">Return unused vials within 2 minutes to avoid unnecessary thaw cycles.</div>
+            </div>
+
+            <div class="info-callout" role="note">
+                <strong>Stability Reminder</strong>
+                <span>Continuous monitoring is essential. Integrate storage units with a calibrated temperature probe and configure SMS/email alerts for deviations beyond ±2&nbsp;°C.</span>
+            </div>
+        </section>
+
+        <section class="info-section" id="stability">
+            <h2>Stability Planning Timeline</h2>
+            <p>Use the following timeline as a planning reference when working with newly received peptide lots. Always defer to certificate of analysis (CoA) data for sequence-specific limits.</p>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>Day 0–3</h3>
+                    <p>Verify shipment temperature logs, inspect vial seals, and enter each lot into the asset registry. Photograph labels for digital backups.</p>
+                </div>
+                <div class="info-card">
+                    <h3>Week 1</h3>
+                    <p>Schedule baseline potency or purity checks for critical sequences. Record aliquot map for any subdivided vials.</p>
+                </div>
+                <div class="info-card">
+                    <h3>Month 3</h3>
+                    <p>Audit freezer inventory. Discard or re-test items that have reached their recommended re-evaluation interval.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="info-section" id="documentation">
+            <h2>Documentation Essentials</h2>
+            <p>Traceability protects both your data and downstream collaborators. Maintain a digital storage log that pairs lot numbers with container positions and environmental data.</p>
+            <ul class="info-list">
+                <li>Capture electronic signatures for each storage event and corrective action.</li>
+                <li>Attach supporting documents such as CoAs, stability reports, and deviation notes.</li>
+                <li>Review logs weekly to confirm inventory counts align with experimental consumption.</li>
+            </ul>
+        </section>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script src="navbar.js"></script>
+    <script>
+        fetch('footer.html')
+            .then(response => response.text())
+            .then(html => {
+                const temp = document.createElement('div');
+                temp.innerHTML = html;
+                const footer = temp.querySelector('footer');
+                if (footer) {
+                    document.getElementById('footer-container').appendChild(footer);
+                }
+            })
+            .catch(err => console.error('Error loading footer:', err));
+    </script>
+</body>
+</html>

@@ -1,5 +1,97 @@
 // Order Page Functionality
 
+// Carousel functionality scoped to the order hero
+class Carousel {
+    constructor(root) {
+        this.root = root;
+        this.currentSlide = 0;
+        this.slides = root ? root.querySelectorAll('.carousel-slide') : [];
+        this.prevBtn = root ? root.querySelector('.carousel-btn.prev') : null;
+        this.nextBtn = root ? root.querySelector('.carousel-btn.next') : null;
+        this.dotsContainer = root ? root.querySelector('.carousel-dots') : null;
+        this.autoplayInterval = null;
+        this.isReady = Boolean(
+            this.root &&
+            this.slides.length > 0 &&
+            this.prevBtn &&
+            this.nextBtn &&
+            this.dotsContainer
+        );
+
+        if (this.isReady) {
+            this.init();
+        }
+    }
+
+    init() {
+        this.createDots();
+        this.addEventListeners();
+        this.startAutoplay();
+    }
+
+    createDots() {
+        this.slides.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (index === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => this.goToSlide(index));
+            this.dotsContainer.appendChild(dot);
+        });
+        this.dots = this.dotsContainer.querySelectorAll('.dot');
+    }
+
+    addEventListeners() {
+        this.prevBtn.addEventListener('click', () => {
+            this.stopAutoplay();
+            this.prevSlide();
+            this.startAutoplay();
+        });
+
+        this.nextBtn.addEventListener('click', () => {
+            this.stopAutoplay();
+            this.nextSlide();
+            this.startAutoplay();
+        });
+
+        this.root.addEventListener('mouseenter', () => this.stopAutoplay());
+        this.root.addEventListener('mouseleave', () => this.startAutoplay());
+    }
+
+    goToSlide(index) {
+        this.slides[this.currentSlide].classList.remove('active');
+        this.dots[this.currentSlide].classList.remove('active');
+
+        this.currentSlide = index;
+
+        this.slides[this.currentSlide].classList.add('active');
+        this.dots[this.currentSlide].classList.add('active');
+    }
+
+    nextSlide() {
+        const nextIndex = (this.currentSlide + 1) % this.slides.length;
+        this.goToSlide(nextIndex);
+    }
+
+    prevSlide() {
+        const prevIndex = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
+        this.goToSlide(prevIndex);
+    }
+
+    startAutoplay() {
+        this.stopAutoplay();
+        this.autoplayInterval = window.setInterval(() => {
+            this.nextSlide();
+        }, 5000);
+    }
+
+    stopAutoplay() {
+        if (this.autoplayInterval) {
+            window.clearInterval(this.autoplayInterval);
+            this.autoplayInterval = null;
+        }
+    }
+}
+
 // WooCommerce products are now proxied through Netlify Functions to avoid CORS issues
 const PRODUCT_ENDPOINTS = resolveProductEndpoints();
 
@@ -34,6 +126,16 @@ function resolveProductEndpoints() {
     }
 
     return endpoints;
+}
+
+function initOrderCarousel() {
+    const carouselRoot = document.querySelector('.order-hero-slider .carousel');
+    if (!carouselRoot) return;
+
+    const carouselInstance = new Carousel(carouselRoot);
+    if (!carouselInstance.isReady) {
+        console.warn('Order hero carousel failed to initialize.');
+    }
 }
 
 async function fetchProductsFromEndpoints() {
@@ -774,6 +876,7 @@ function initializeProfileDropdown() {
 document.addEventListener('DOMContentLoaded', function() {
     const openAgeGate = initAgeGate();
     initResearchNotice(openAgeGate);
+    initOrderCarousel();
     
     loadComponents(); // Load footer and listen for navbar events
     loadAllProducts();

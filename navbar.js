@@ -72,11 +72,19 @@ function initializeNavbar() {
     }
     
     // Track My Order link
-    const trackOrderLinks = document.querySelectorAll('a[href="#track-order"]');
+    const trackOrderLinks = document.querySelectorAll('a[href="track-order.html"]');
     trackOrderLinks.forEach(link => {
         link.addEventListener('click', (e) => {
-            e.preventDefault();
-            alert('Track Order functionality coming soon!\n\nYou will be able to:\n• Track your shipment\n• View order history\n• Check order status');
+            if (window.location.pathname.includes('track-order.html')) {
+                e.preventDefault();
+                const targetSection = document.querySelector('.track-form-section');
+                if (targetSection) {
+                    window.scrollTo({
+                        top: targetSection.offsetTop - 120,
+                        behavior: 'smooth'
+                    });
+                }
+            }
         });
     });
     

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peptide Reconstruction Procedures | VitaSyn Labs</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="navbar.css">
+    <link rel="stylesheet" href="footer.css">
+    <link rel="stylesheet" href="peptide-pages.css">
+</head>
+<body class="peptide-info-page peptide-reconstruction-page">
+    <div id="navbar-container"></div>
+
+    <main class="info-page">
+        <section class="info-hero" id="overview">
+            <div class="info-hero-content">
+                <span class="info-badge">Reconstruction Workflow</span>
+                <h1>Peptide Reconstruction &amp; Handling</h1>
+                <p>Achieve consistent experimental performance by pairing clean technique with precise measurements. The protocol below outlines the reconstruction path from vial inspection through aliquoting and storage.</p>
+            </div>
+        </section>
+
+        <section class="info-panels" aria-label="Reconstruction preparation">
+            <article class="info-panel">
+                <h2>Preparation &amp; Setup</h2>
+                <p>Stage all supplies prior to breaking the vial seal to limit exposure to ambient humidity.</p>
+                <ul class="info-list">
+                    <li>Allow lyophilized vials to reach room temperature while sealed.</li>
+                    <li>Prepare sterile work surface under a Class II biosafety cabinet or laminar flow hood.</li>
+                    <li>Assemble sterile syringes, low-protein-binding filters, and pre-chilled aliquot tubes.</li>
+                </ul>
+            </article>
+
+            <article class="info-panel">
+                <h2>Diluent Selection</h2>
+                <p>Match the diluent to the sequence. Utilize bacteriostatic water or sterile saline unless CoA guidance specifies otherwise.</p>
+                <ul class="info-list">
+                    <li>Warm diluent to 18–22&nbsp;°C to reduce foaming during addition.</li>
+                    <li>Adjust pH within the recommended stability window for the peptide.</li>
+                    <li>Always record lot numbers for diluent and filters used.</li>
+                </ul>
+            </article>
+
+            <article class="info-panel">
+                <h2>Sterility Controls</h2>
+                <p>Mitigate contamination by enforcing aseptic touchpoints.</p>
+                <ul class="info-list">
+                    <li>Sanitize gloves with 70% IPA between each vial interaction.</li>
+                    <li>Inspect the stopper for particulates after piercing; discard if compromised.</li>
+                    <li>Employ single-use needles and discard them into appropriate sharps containers immediately.</li>
+                </ul>
+            </article>
+        </section>
+
+        <section class="info-section" id="protocol">
+            <h2>Step-by-Step Protocol</h2>
+            <ol class="info-steps">
+                <li>Open the vial and introduce the first 10–20% of the diluent slowly along the glass wall to dampen the cake.</li>
+                <li>Gently swirl—never shake—until the powder dissolves fully. Avoid creating bubbles or foam.</li>
+                <li>Complete the volume with remaining diluent while maintaining laminar flow coverage.</li>
+                <li>Withdraw solution through a sterile 0.22&nbsp;µm filter into labeled aliquot tubes sized for single-use experiments.</li>
+                <li>Document the final concentration, diluent, and expiration date in the lab notebook and digital inventory system.</li>
+            </ol>
+            <div class="info-callout" role="note">
+                <strong>Tip</strong>
+                <span>If solubility issues appear, consult the peptide datasheet for compatible co-solvents (such as acetic acid or DMSO). Introduce them incrementally &lt;5% v/v while monitoring clarity.</span>
+            </div>
+        </section>
+
+        <section class="info-section" id="post-mix">
+            <h2>Post-Mix Handling</h2>
+            <p>Aliquoted solutions degrade faster than lyophilized material. Build a rotation that matches experimental cadence to minimize waste.</p>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>Immediate Use</h3>
+                    <p>Store aliquots destined for same-day work on wet ice and discard leftovers after the session concludes.</p>
+                </div>
+                <div class="info-card">
+                    <h3>7-Day Window</h3>
+                    <p>Refrigerate at 2–8&nbsp;°C and schedule potency checks if the peptide is sensitive to hydrolysis.</p>
+                </div>
+                <div class="info-card">
+                    <h3>Long-Term</h3>
+                    <p>Snap-freeze at -20&nbsp;°C or below. Avoid repeated freeze-thaw cycles—create enough aliquots to keep each vial single-use.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="info-section" id="qa">
+            <h2>Quality Assurance</h2>
+            <p>A lightweight QA review after every reconstruction maintains confidence in downstream assays.</p>
+            <ul class="info-list">
+                <li>Retain a 0.5&nbsp;mL archive aliquot at -80&nbsp;°C for re-testing if questions arise.</li>
+                <li>Capture conductivity, pH, and clarity observations in the batch record.</li>
+                <li>Schedule periodic microbial screening for frequently used peptides.</li>
+            </ul>
+        </section>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script src="navbar.js"></script>
+    <script>
+        fetch('footer.html')
+            .then(response => response.text())
+            .then(html => {
+                const temp = document.createElement('div');
+                temp.innerHTML = html;
+                const footer = temp.querySelector('footer');
+                if (footer) {
+                    document.getElementById('footer-container').appendChild(footer);
+                }
+            })
+            .catch(err => console.error('Error loading footer:', err));
+    </script>
+</body>
+</html>
