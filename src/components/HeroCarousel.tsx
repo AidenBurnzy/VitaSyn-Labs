@@ -39,20 +39,18 @@ export default function HeroCarousel() {
         <div className="carousel-track">
           {slides.map((slide, index) => (
             <div key={slide.id} className={`carousel-slide ${slide.className} ${index === currentSlide ? 'active' : ''}`}>
-              <div className="slide-content">
-                <h1 className="hero-title">{slide.title}</h1>
-                {slide.subtitle && <p className="hero-subtitle">{slide.subtitle}</p>}
-                <a href={slide.link} className="hero-cta">{slide.cta}</a>
-              </div>
             </div>
           ))}
         </div>
         <button className="carousel-btn prev" onClick={prevSlide} aria-label="Previous">‹</button>
         <button className="carousel-btn next" onClick={nextSlide} aria-label="Next">›</button>
-        <div className="carousel-dots">
-          {slides.map((_, index) => (
-            <div key={index} className={`dot ${index === currentSlide ? 'active' : ''}`} onClick={() => goToSlide(index)} />
-          ))}
+        <div className="carousel-controls">
+          <div className="carousel-dots">
+            {slides.map((_, index) => (
+              <div key={index} className={`dot ${index === currentSlide ? 'active' : ''}`} onClick={() => goToSlide(index)} />
+            ))}
+          </div>
+          <a href={slides[currentSlide].link} className="hero-cta-bottom">SHOP NOW</a>
         </div>
       </div>
     </section>
