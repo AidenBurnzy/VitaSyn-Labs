@@ -11,18 +11,32 @@ import Link from 'next/link'
 export default function Home() {
   const [products, setProducts] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string>('')
 
   useEffect(() => {
+    console.log('Home page: Fetching products from API...')
     fetch('/api/products')
       .then(res => res.json())
       .then(data => {
-        if (Array.isArray(data)) {
+        console.log('Home page: API Response:', data)
+        if (data.error) {
+          setError(data.message || 'Failed to load products')
+          setProducts([])
+        } else if (Array.isArray(data)) {
           setProducts(data.slice(0, 6))
+          setError('')
+        } else if (data.products && Array.isArray(data.products)) {
+          setProducts(data.products.slice(0, 6))
+          setError('')
+        } else {
+          setError('Invalid product data')
+          setProducts([])
         }
         setLoading(false)
       })
       .catch(err => {
         console.error('Failed to load products:', err)
+        setError('Network error')
         setLoading(false)
       })
   }, [])

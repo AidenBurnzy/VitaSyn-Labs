@@ -9,22 +9,34 @@ export default function OrderPage() {
   const [products, setProducts] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
+  const [error, setError] = useState<string>('')
 
   useEffect(() => {
+    console.log('Fetching products from API...')
     fetch('/api/products')
       .then(res => res.json())
       .then(data => {
-        // Ensure data is an array
-        if (Array.isArray(data)) {
+        console.log('API Response:', data)
+        // Check if response has error message
+        if (data.error) {
+          setError(data.message || 'Failed to load products')
+          setProducts([])
+        } else if (Array.isArray(data)) {
           setProducts(data)
+          setError('')
+        } else if (data.products && Array.isArray(data.products)) {
+          setProducts(data.products)
+          setError('')
         } else {
           console.error('Products data is not an array:', data)
+          setError('Invalid product data received')
           setProducts([])
         }
         setLoading(false)
       })
       .catch(err => {
         console.error('Failed to load products:', err)
+        setError('Network error: Failed to connect to product API')
         setProducts([])
         setLoading(false)
       })
@@ -84,13 +96,26 @@ export default function OrderPage() {
         
         {loading ? (
           <p style={{textAlign: 'center'}}>Loading products...</p>
+        ) : error ? (
+          <div style={{textAlign: 'center', padding: '60px 20px', maxWidth: '600px', margin: '0 auto'}}>
+            <h3 style={{color: '#dc3545', marginBottom: '20px'}}>⚠️ Configuration Required</h3>
+            <p style={{marginBottom: '15px', lineHeight: '1.8'}}>{error}</p>
+            <div style={{background: '#f8f9fa', padding: '20px', borderRadius: '8px', textAlign: 'left', fontSize: '14px'}}>
+              <p style={{fontWeight: 'bold', marginBottom: '10px'}}>To fix this issue:</p>
+              <ol style={{paddingLeft: '20px', lineHeight: '2'}}>
+                <li>Add WooCommerce environment variables in Vercel</li>
+                <li>Set WOOCOMMERCE_URL, WOOCOMMERCE_CONSUMER_KEY, and WOOCOMMERCE_CONSUMER_SECRET</li>
+                <li>Redeploy your application</li>
+              </ol>
+              <p style={{marginTop: '15px', fontSize: '13px', color: '#666'}}>
+                See <strong>VERCEL_DEPLOYMENT.md</strong> for detailed instructions.
+              </p>
+            </div>
+          </div>
         ) : products.length === 0 ? (
           <div style={{textAlign: 'center', padding: '60px 20px'}}>
             <h3>No products available</h3>
-            <p>Please configure your WooCommerce API credentials in .env.local</p>
-            <p style={{marginTop: '20px', fontSize: '14px', color: '#666'}}>
-              Missing environment variables or WooCommerce connection issue.
-            </p>
+            <p>Please check your WooCommerce store and ensure products are published.</p>
           </div>
         ) : filteredProducts.length === 0 ? (
           <div style={{textAlign: 'center', padding: '60px 20px'}}>
