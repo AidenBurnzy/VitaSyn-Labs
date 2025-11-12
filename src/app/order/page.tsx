@@ -3,10 +3,12 @@
 import { useState, useEffect } from 'react'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import StackCarousel from '@/components/StackCarousel'
 
 export default function OrderPage() {
   const [products, setProducts] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(() => {
     fetch('/api/products')
@@ -28,11 +30,57 @@ export default function OrderPage() {
       })
   }, [])
 
+  // Filter products based on search query
+  const filteredProducts = products.filter(product =>
+    product.name.toLowerCase().includes(searchQuery.toLowerCase())
+  )
+
   return (
     <>
       <Navbar />
       <main style={{minHeight: '60vh', padding: '40px 20px'}}>
-        <h1 style={{textAlign: 'center', margin: '40px 0'}}>ORDER RESEARCH PEPTIDES</h1>
+        <h1 style={{textAlign: 'center', margin: '40px 0 20px'}}>ORDER RESEARCH PEPTIDES</h1>
+        
+        {/* Stack Carousel */}
+        <StackCarousel />
+        
+        {/* Search Bar */}
+        <div className="search-bar-container">
+          <div className="search-bar">
+            <svg 
+              className="search-icon" 
+              xmlns="http://www.w3.org/2000/svg" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth="2"
+            >
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.35-4.35"></path>
+            </svg>
+            <input
+              type="text"
+              placeholder="Search peptides by name..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="search-input"
+            />
+            {searchQuery && (
+              <button 
+                className="search-clear"
+                onClick={() => setSearchQuery('')}
+                aria-label="Clear search"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+          {searchQuery && (
+            <p className="search-results-count">
+              {filteredProducts.length} {filteredProducts.length === 1 ? 'result' : 'results'} found
+            </p>
+          )}
+        </div>
         
         {loading ? (
           <p style={{textAlign: 'center'}}>Loading products...</p>
@@ -44,9 +92,14 @@ export default function OrderPage() {
               Missing environment variables or WooCommerce connection issue.
             </p>
           </div>
+        ) : filteredProducts.length === 0 ? (
+          <div style={{textAlign: 'center', padding: '60px 20px'}}>
+            <h3>No products found</h3>
+            <p>Try adjusting your search terms</p>
+          </div>
         ) : (
           <div className="product-grid" style={{maxWidth: '1200px', margin: '0 auto'}}>
-            {products.map((product: any) => (
+            {filteredProducts.map((product: any) => (
               <div key={product.id} className="product-card">
                 <div className="product-image">
                   {product.images?.[0]?.src ? (

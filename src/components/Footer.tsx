@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 export default function Footer() {
   return (
     <footer className="peptide-footer">
@@ -15,13 +17,13 @@ export default function Footer() {
           <div className="footer-column">
             <h3>Quick Links</h3>
             <ul>
-              <li><a href="#buy-peptides">Buy Peptides</a></li>
-              <li><a href="#company">Our Company</a></li>
-              <li><a href="#privacy">Privacy Policy</a></li>
-              <li><a href="#shipping">Shipping Policy</a></li>
-              <li><a href="#refund">Refund Policy</a></li>
-              <li><a href="#terms">Terms and Conditions</a></li>
-              <li><a href="#contact">Contact Us</a></li>
+              <li><Link href="/">Buy Peptides</Link></li>
+              <li><Link href="/company">Our Company</Link></li>
+              <li><Link href="/privacy">Privacy Policy</Link></li>
+              <li><Link href="/shipping">Shipping Policy</Link></li>
+              <li><Link href="/refund">Refund Policy</Link></li>
+              <li><Link href="/terms">Terms and Conditions</Link></li>
+              <li><Link href="/contact">Contact Us</Link></li>
             </ul>
           </div>
 
