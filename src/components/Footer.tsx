@@ -92,7 +92,7 @@ export default function Footer() {
       </div>
 
       <div className="footer-bottom">
-        <p>Evans Peptides © 2025</p>
+        <p>VitaSyn Labs © 2025</p>
       </div>
     </footer>
   )
