@@ -2,6 +2,10 @@ import { NextResponse } from 'next/server'
 import { getPool } from '@/lib/db'
 import { getUserFromRequest } from '@/lib/auth'
 
+// Force dynamic rendering for this route
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export async function GET(request: Request) {
   try {
     const authHeader = request.headers.get('authorization')

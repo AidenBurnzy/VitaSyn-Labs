@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server'
 import { fetchProducts } from '@/lib/woocommerce'
 
+// Force dynamic rendering for this route
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export async function GET(request: Request) {
   try {
     console.log('Products API called')
