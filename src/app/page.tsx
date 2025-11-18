@@ -98,9 +98,7 @@ export default function Home() {
                         <img 
                           src={product.images[0].src || product.images[0].thumbnail || '/peptide-placeholder.svg'} 
                           alt={product.name} 
-                          crossOrigin="anonymous"
                           loading="lazy"
-                          referrerPolicy="no-referrer"
                           style={{width: '100%', height: '100%', objectFit: 'contain'}} 
                           onError={(e) => {
                             console.error('Image failed to load:', product.images[0].src)
