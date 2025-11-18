@@ -184,18 +184,31 @@ export default function ProductModal({ product, isOpen, onClose }: ProductModalP
             </p>
 
             {/* Description */}
-            {product.short_description && (
-              <div 
-                style={{
-                  fontSize: '15px',
-                  color: '#666',
-                  lineHeight: '1.6',
-                  marginBottom: '25px',
-                  paddingBottom: '25px',
-                  borderBottom: '1px solid #e0e0e0',
-                }}
-                dangerouslySetInnerHTML={{ __html: product.short_description }}
-              />
+            {(product.short_description || product.description) && (
+              <div style={{
+                marginBottom: '25px',
+                paddingBottom: '25px',
+                borderBottom: '1px solid #e0e0e0',
+              }}>
+                <h3 style={{
+                  fontSize: '16px',
+                  fontWeight: '600',
+                  color: '#333',
+                  marginBottom: '12px',
+                }}>
+                  Product Description
+                </h3>
+                <div 
+                  style={{
+                    fontSize: '15px',
+                    color: '#666',
+                    lineHeight: '1.8',
+                  }}
+                  dangerouslySetInnerHTML={{ 
+                    __html: product.short_description || product.description || 'No description available.' 
+                  }}
+                />
+              </div>
             )}
 
             {/* Stock Status */}

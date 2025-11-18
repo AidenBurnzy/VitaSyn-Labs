@@ -156,6 +156,23 @@ export default function OrderPage() {
                 </div>
                 <div className="product-info">
                   <h3 className="product-name">{product.name}</h3>
+                  {product.short_description && (
+                    <p style={{
+                      fontSize: '13px',
+                      color: '#888',
+                      margin: '8px 0',
+                      lineHeight: '1.4',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical',
+                    }}
+                    dangerouslySetInnerHTML={{ 
+                      __html: product.short_description.replace(/<[^>]*>/g, '').substring(0, 80) + '...' 
+                    }}
+                    />
+                  )}
                   <p className="product-price">${product.price}</p>
                   <button className="view-details-btn" onClick={(e) => e.stopPropagation()}>VIEW DETAILS</button>
                 </div>
