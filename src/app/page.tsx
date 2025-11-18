@@ -96,7 +96,7 @@ export default function Home() {
                     <div className="product-image">
                       {product.images?.[0] ? (
                         <img 
-                          src={product.images[0].src || product.images[0].thumbnail || '/peptide-placeholder.svg'} 
+                          src={`/api/image-proxy?url=${encodeURIComponent(product.images[0].src || product.images[0].thumbnail)}`}
                           alt={product.name} 
                           loading="lazy"
                           style={{width: '100%', height: '100%', objectFit: 'contain'}} 
