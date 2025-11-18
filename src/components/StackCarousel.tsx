@@ -9,22 +9,22 @@ const stackSlides = [
     title: 'GLOW STACK', 
     subtitle: 'Radiance & Vitality Research Bundle',
     products: ['TB-500', 'GHK-CU', 'BPC-157'],
-    price: '$159.99',
-    originalPrice: '$199.99',
+    price: '$250',
+    originalPrice: '$323',
     savings: 'SAVE 20%',
     link: '/order',
-    bgColor: '#1a1a2e'
+    bgColor: '#000000'
   },
   { 
     id: 2, 
     title: 'WOLVERINE STACK', 
     subtitle: 'Peak Athletic Research Bundle',
     products: ['BPC-157', 'TB-500'],
-    price: '$189.99',
-    originalPrice: '$237.49',
+    price: '$200',
+    originalPrice: '$225',
     savings: 'SAVE 20%',
     link: '/order',
-    bgColor: '#16213e'
+    bgColor: '#000000'
   }
 ]
 
@@ -96,11 +96,12 @@ export default function StackCarousel() {
                 key={slide.id}
                 className={`stack-slide ${index === currentSlide ? 'active' : ''}`}
                 style={{ 
-                  backgroundColor: slide.bgColor,
-                  border: '2px solid #333',
+                  backgroundColor: '#000',
+                  border: '2px solid #fff',
                   borderRadius: '12px',
                   overflow: 'hidden',
-                  height: 'auto'
+                  height: 'auto',
+                  minHeight: '100%'
                 }}
               >
                 <div className="stack-content" style={{
@@ -110,7 +111,8 @@ export default function StackCarousel() {
                   alignItems: 'center',
                   gap: '30px',
                   width: '100%',
-                  boxSizing: 'border-box'
+                  boxSizing: 'border-box',
+                  minHeight: 'fit-content'
                 }}>
                   <div className="stack-left" style={{ flex: 1 }}>
                     <div className="stack-info">
@@ -130,7 +132,12 @@ export default function StackCarousel() {
                       <h3 style={{
                         fontSize: '26px',
                         fontWeight: 'bold',
-                        color: '#fff',
+                        background: 'linear-gradient(90deg, #FF9800, #2196F3, #FF9800, #2196F3)',
+                        backgroundSize: '300% 100%',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text',
+                        animation: 'gradientShift 3s ease infinite',
                         marginBottom: '10px',
                         letterSpacing: '1px',
                         lineHeight: '1.2'
@@ -192,8 +199,11 @@ export default function StackCarousel() {
                         {slide.price}
                       </div>
                     </div>
-                    <Link 
-                      href={slide.link} 
+                    <button 
+                      onClick={(e) => {
+                        e.preventDefault()
+                        window.location.href = '/order'
+                      }}
                       style={{
                         display: 'inline-flex',
                         alignItems: 'center',
@@ -224,7 +234,7 @@ export default function StackCarousel() {
                         <line x1="5" y1="12" x2="19" y2="12"></line>
                         <polyline points="12 5 19 12 12 19"></polyline>
                       </svg>
-                    </Link>
+                    </button>
                   </div>
                 </div>
               </div>

@@ -53,8 +53,8 @@ export default function OrderPage() {
   return (
     <>
       <Navbar />
-      <main style={{minHeight: '60vh', padding: '40px 20px'}}>
-        <h1 style={{textAlign: 'center', margin: '40px 0 20px'}}>ORDER RESEARCH PEPTIDES</h1>
+      <main style={{minHeight: '60vh', padding: '20px 15px'}}>
+        <h1 className="order-page-title">ORDER RESEARCH PEPTIDES</h1>
         
         {/* Stack Carousel */}
         <StackCarousel />
