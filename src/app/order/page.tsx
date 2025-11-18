@@ -4,12 +4,15 @@ import { useState, useEffect } from 'react'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import StackCarousel from '@/components/StackCarousel'
+import ProductModal from '@/components/ProductModal'
 
 export default function OrderPage() {
   const [products, setProducts] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
   const [error, setError] = useState<string>('')
+  const [selectedProduct, setSelectedProduct] = useState<any>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   useEffect(() => {
     console.log('Fetching products from API...')
@@ -125,7 +128,15 @@ export default function OrderPage() {
         ) : (
           <div className="product-grid" style={{maxWidth: '1200px', margin: '0 auto'}}>
             {filteredProducts.map((product: any) => (
-              <div key={product.id} className="product-card">
+              <div 
+                key={product.id} 
+                className="product-card"
+                onClick={() => {
+                  setSelectedProduct(product)
+                  setIsModalOpen(true)
+                }}
+                style={{ cursor: 'pointer' }}
+              >
                 <div className="product-image">
                   {product.images?.[0] ? (
                     <img 
@@ -146,13 +157,23 @@ export default function OrderPage() {
                 <div className="product-info">
                   <h3 className="product-name">{product.name}</h3>
                   <p className="product-price">${product.price}</p>
-                  <button className="view-details-btn">ADD TO CART</button>
+                  <button className="view-details-btn" onClick={(e) => e.stopPropagation()}>VIEW DETAILS</button>
                 </div>
               </div>
             ))}
           </div>
         )}
       </main>
+      
+      <ProductModal 
+        product={selectedProduct}
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false)
+          setSelectedProduct(null)
+        }}
+      />
+      
       <Footer />
     </>
   )

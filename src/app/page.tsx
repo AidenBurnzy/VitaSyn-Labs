@@ -6,12 +6,14 @@ import Footer from '@/components/Footer'
 import ResearchNotice from '@/components/ResearchNotice'
 import AgeGate from '@/components/AgeGate'
 import HeroCarousel from '@/components/HeroCarousel'
-import Link from 'next/link'
+import ProductModal from '@/components/ProductModal'
 
 export default function Home() {
   const [products, setProducts] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string>('')
+  const [selectedProduct, setSelectedProduct] = useState<any>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   useEffect(() => {
     console.log('Home page: Fetching products from API...')
@@ -91,36 +93,51 @@ export default function Home() {
           ) : (
             <div className="product-grid">
               {products.map((product: any) => (
-                <Link href="/order" key={product.id} className="product-card-link">
-                  <div className="product-card">
-                    <div className="product-image">
-                      {product.images?.[0] ? (
-                        <img 
-                          src={`/api/image-proxy?url=${encodeURIComponent(product.images[0].src || product.images[0].thumbnail)}`}
-                          alt={product.name} 
-                          loading="lazy"
-                          style={{width: '100%', height: '100%', objectFit: 'contain'}} 
-                          onError={(e) => {
-                            console.error('Image failed to load:', product.images[0].src)
-                            e.currentTarget.src = '/peptide-placeholder.svg'
-                            e.currentTarget.style.padding = '20px'
-                          }}
-                        />
-                      ) : (
-                        <img src="/peptide-placeholder.svg" alt={product.name} style={{width: '100%', height: '100%', objectFit: 'contain', padding: '20px'}} />
-                      )}
-                    </div>
-                    <div className="product-info">
-                      <h3 className="product-name">{product.name}</h3>
-                      <p className="product-price">${product.price}</p>
-                    </div>
+                <div 
+                  key={product.id} 
+                  className="product-card"
+                  onClick={() => {
+                    setSelectedProduct(product)
+                    setIsModalOpen(true)
+                  }}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <div className="product-image">
+                    {product.images?.[0] ? (
+                      <img 
+                        src={`/api/image-proxy?url=${encodeURIComponent(product.images[0].src || product.images[0].thumbnail)}`}
+                        alt={product.name} 
+                        loading="lazy"
+                        style={{width: '100%', height: '100%', objectFit: 'contain'}} 
+                        onError={(e) => {
+                          console.error('Image failed to load:', product.images[0].src)
+                          e.currentTarget.src = '/peptide-placeholder.svg'
+                          e.currentTarget.style.padding = '20px'
+                        }}
+                      />
+                    ) : (
+                      <img src="/peptide-placeholder.svg" alt={product.name} style={{width: '100%', height: '100%', objectFit: 'contain', padding: '20px'}} />
+                    )}
                   </div>
-                </Link>
+                  <div className="product-info">
+                    <h3 className="product-name">{product.name}</h3>
+                    <p className="product-price">${product.price}</p>
+                  </div>
+                </div>
               ))}
             </div>
           )}
         </section>
       </main>
+      
+      <ProductModal 
+        product={selectedProduct}
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false)
+          setSelectedProduct(null)
+        }}
+      />
       
       <Footer />
     </>
