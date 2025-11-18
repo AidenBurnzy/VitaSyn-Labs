@@ -7,50 +7,24 @@ const stackSlides = [
   { 
     id: 1, 
     title: 'GLOW STACK', 
-    icon: '✨',
     subtitle: 'Radiance & Vitality Research Bundle',
-    products: ['GHK-CU', 'Epitalon', 'BPC-157'],
+    products: ['TB-500', 'GHK-CU', 'BPC-157'],
     price: '$159.99',
     originalPrice: '$199.99',
     savings: 'SAVE 20%',
     link: '/order',
-    gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+    bgColor: '#1a1a2e'
   },
   { 
     id: 2, 
-    title: 'PERFORMANCE STACK', 
-    icon: '💪',
+    title: 'WOLVERINE STACK', 
     subtitle: 'Peak Athletic Research Bundle',
-    products: ['Ipamorelin', 'CJC-1295', 'TB-500'],
+    products: ['BPC-157', 'TB-500'],
     price: '$189.99',
     originalPrice: '$237.49',
     savings: 'SAVE 20%',
     link: '/order',
-    gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)'
-  },
-  { 
-    id: 3, 
-    title: 'COGNITIVE STACK', 
-    icon: '🧠',
-    subtitle: 'Mental Clarity Research Bundle',
-    products: ['Semax', 'Selank', 'Cerebrolysin'],
-    price: '$174.99',
-    originalPrice: '$218.74',
-    savings: 'SAVE 20%',
-    link: '/order',
-    gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)'
-  },
-  { 
-    id: 4, 
-    title: 'METABOLIC STACK', 
-    icon: '🔥',
-    subtitle: 'Metabolic Research Bundle',
-    products: ['AOD-9604', 'MOTS-C', 'Tesamorelin'],
-    price: '$199.99',
-    originalPrice: '$249.99',
-    savings: 'SAVE 20%',
-    link: '/order',
-    gradient: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)'
+    bgColor: '#16213e'
   }
 ]
 
@@ -121,49 +95,137 @@ export default function StackCarousel() {
               <div
                 key={slide.id}
                 className={`stack-slide ${index === currentSlide ? 'active' : ''}`}
-                style={{ background: slide.gradient }}
+                style={{ 
+                  backgroundColor: slide.bgColor,
+                  border: '2px solid #333',
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  height: 'auto'
+                }}
               >
-                <div className="stack-slide-overlay"></div>
-                <div className="stack-content">
-                  <div className="stack-left">
-                    <div className="stack-icon-badge">
-                      <span className="stack-icon">{slide.icon}</span>
-                    </div>
+                <div className="stack-content" style={{
+                  padding: '30px',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  gap: '30px',
+                  width: '100%',
+                  boxSizing: 'border-box'
+                }}>
+                  <div className="stack-left" style={{ flex: 1 }}>
                     <div className="stack-info">
-                      <div className="stack-badge">{slide.savings}</div>
-                      <h3 className="stack-title">{slide.title}</h3>
-                      <p className="stack-subtitle">{slide.subtitle}</p>
-                      <div className="stack-products">
+                      <div style={{
+                        display: 'inline-block',
+                        backgroundColor: '#FF9800',
+                        color: '#fff',
+                        padding: '5px 14px',
+                        borderRadius: '20px',
+                        fontSize: '11px',
+                        fontWeight: 'bold',
+                        marginBottom: '12px',
+                        letterSpacing: '0.5px'
+                      }}>
+                        {slide.savings}
+                      </div>
+                      <h3 style={{
+                        fontSize: '26px',
+                        fontWeight: 'bold',
+                        color: '#fff',
+                        marginBottom: '10px',
+                        letterSpacing: '1px',
+                        lineHeight: '1.2'
+                      }}>
+                        {slide.title}
+                      </h3>
+                      <p style={{
+                        fontSize: '14px',
+                        color: '#aaa',
+                        marginBottom: '15px',
+                        lineHeight: '1.4'
+                      }}>
+                        {slide.subtitle}
+                      </p>
+                      <div style={{
+                        display: 'flex',
+                        gap: '8px',
+                        flexWrap: 'wrap'
+                      }}>
                         {slide.products.map((product, idx) => (
-                          <span key={idx} className="product-tag">
+                          <span key={idx} style={{
+                            backgroundColor: 'rgba(33, 150, 243, 0.15)',
+                            color: '#2196F3',
+                            padding: '6px 12px',
+                            borderRadius: '6px',
+                            fontSize: '13px',
+                            fontWeight: '500',
+                            border: '1px solid rgba(33, 150, 243, 0.3)',
+                            whiteSpace: 'nowrap'
+                          }}>
                             {product}
                           </span>
                         ))}
                       </div>
                     </div>
                   </div>
-                  <div className="stack-right">
-                    <div className="stack-pricing">
-                      <div className="price-container">
-                        <span className="original-price">{slide.originalPrice}</span>
-                        <span className="stack-price">{slide.price}</span>
+                  <div className="stack-right" style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'flex-end',
+                    gap: '15px',
+                    flexShrink: 0
+                  }}>
+                    <div style={{ textAlign: 'right' }}>
+                      <div style={{
+                        fontSize: '16px',
+                        color: '#888',
+                        textDecoration: 'line-through',
+                        marginBottom: '6px'
+                      }}>
+                        {slide.originalPrice}
                       </div>
-                      <Link href={slide.link} className="stack-cta">
-                        <span>VIEW BUNDLE</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <line x1="5" y1="12" x2="19" y2="12"></line>
-                          <polyline points="12 5 19 12 12 19"></polyline>
-                        </svg>
-                      </Link>
+                      <div style={{
+                        fontSize: '36px',
+                        fontWeight: 'bold',
+                        color: '#2196F3',
+                        lineHeight: '1'
+                      }}>
+                        {slide.price}
+                      </div>
                     </div>
+                    <Link 
+                      href={slide.link} 
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        backgroundColor: '#2196F3',
+                        color: '#fff',
+                        padding: '12px 24px',
+                        borderRadius: '6px',
+                        fontSize: '14px',
+                        fontWeight: '600',
+                        textDecoration: 'none',
+                        transition: 'all 0.2s',
+                        border: 'none',
+                        cursor: 'pointer',
+                        whiteSpace: 'nowrap'
+                      }}
+                      onMouseOver={(e) => {
+                        e.currentTarget.style.backgroundColor = '#1976D2'
+                        e.currentTarget.style.transform = 'translateY(-2px)'
+                      }}
+                      onMouseOut={(e) => {
+                        e.currentTarget.style.backgroundColor = '#2196F3'
+                        e.currentTarget.style.transform = 'translateY(0)'
+                      }}
+                    >
+                      <span>VIEW BUNDLE</span>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                      </svg>
+                    </Link>
                   </div>
-                </div>
-                
-                {/* Animated background shapes */}
-                <div className="stack-bg-shapes">
-                  <div className="shape shape-1"></div>
-                  <div className="shape shape-2"></div>
-                  <div className="shape shape-3"></div>
                 </div>
               </div>
             ))}

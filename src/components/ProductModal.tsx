@@ -178,38 +178,10 @@ export default function ProductModal({ product, isOpen, onClose }: ProductModalP
               fontSize: '32px',
               fontWeight: 'bold',
               color: '#2196F3',
-              marginBottom: '20px',
+              marginBottom: '10px',
             }}>
               ${product.price}
             </p>
-
-            {/* Description */}
-            {(product.short_description || product.description) && (
-              <div style={{
-                marginBottom: '25px',
-                paddingBottom: '25px',
-                borderBottom: '1px solid #e0e0e0',
-              }}>
-                <h3 style={{
-                  fontSize: '16px',
-                  fontWeight: '600',
-                  color: '#333',
-                  marginBottom: '12px',
-                }}>
-                  Product Description
-                </h3>
-                <div 
-                  style={{
-                    fontSize: '15px',
-                    color: '#666',
-                    lineHeight: '1.8',
-                  }}
-                  dangerouslySetInnerHTML={{ 
-                    __html: product.short_description || product.description || 'No description available.' 
-                  }}
-                />
-              </div>
-            )}
 
             {/* Stock Status */}
             {product.stock_status && (
@@ -233,6 +205,9 @@ export default function ProductModal({ product, isOpen, onClose }: ProductModalP
               display: 'flex',
               gap: '12px',
               flexWrap: 'wrap',
+              marginBottom: '25px',
+              paddingBottom: '25px',
+              borderBottom: '1px solid #e0e0e0',
             }}>
               <button
                 onClick={handleAddToCart}
@@ -265,7 +240,7 @@ export default function ProductModal({ product, isOpen, onClose }: ProductModalP
                   }
                 }}
               >
-                🛒 Add to Cart
+                Add to Cart
               </button>
 
               <button
@@ -275,7 +250,7 @@ export default function ProductModal({ product, isOpen, onClose }: ProductModalP
                   flex: '1',
                   minWidth: '150px',
                   padding: '14px 24px',
-                  backgroundColor: product.stock_status === 'outofstock' ? '#ccc' : '#4CAF50',
+                  backgroundColor: product.stock_status === 'outofstock' ? '#ccc' : '#FF9800',
                   color: '#fff',
                   border: 'none',
                   borderRadius: '6px',
@@ -286,22 +261,48 @@ export default function ProductModal({ product, isOpen, onClose }: ProductModalP
                 }}
                 onMouseOver={(e) => {
                   if (product.stock_status !== 'outofstock') {
-                    e.currentTarget.style.backgroundColor = '#388E3C'
+                    e.currentTarget.style.backgroundColor = '#F57C00'
                     e.currentTarget.style.transform = 'translateY(-2px)'
-                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(76, 175, 80, 0.3)'
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(255, 152, 0, 0.3)'
                   }
                 }}
                 onMouseOut={(e) => {
                   if (product.stock_status !== 'outofstock') {
-                    e.currentTarget.style.backgroundColor = '#4CAF50'
+                    e.currentTarget.style.backgroundColor = '#FF9800'
                     e.currentTarget.style.transform = 'translateY(0)'
                     e.currentTarget.style.boxShadow = 'none'
                   }
                 }}
               >
-                ⚡ Buy Now
+                Buy Now
               </button>
             </div>
+
+            {/* Description */}
+            {(product.short_description || product.description) && (
+              <div style={{
+                marginBottom: '25px',
+              }}>
+                <h3 style={{
+                  fontSize: '16px',
+                  fontWeight: '600',
+                  color: '#333',
+                  marginBottom: '12px',
+                }}>
+                  Product Description
+                </h3>
+                <div 
+                  style={{
+                    fontSize: '15px',
+                    color: '#666',
+                    lineHeight: '1.8',
+                  }}
+                  dangerouslySetInnerHTML={{ 
+                    __html: product.short_description || product.description || 'No description available.' 
+                  }}
+                />
+              </div>
+            )}
 
             {/* Additional Info */}
             {product.categories && product.categories.length > 0 && (
