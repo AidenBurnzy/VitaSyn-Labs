@@ -14,7 +14,7 @@ Your Evans Peptides website has been **successfully converted** from a static HT
 
 ### 2. **Code Conversion**
 - ✅ Converted 10 HTML pages → Next.js pages
-- ✅ Converted 5 Netlify Functions → Next.js API routes
+- ✅ Converted 5 serverless functions → Next.js API routes
 - ✅ Converted 5 HTML/JS components → React components
 - ✅ Consolidated 8 CSS files → 1 global stylesheet
 - ✅ Created TypeScript type definitions
@@ -73,7 +73,7 @@ src/
 - ✅ Removed all old HTML files
 - ✅ Removed all old JS files
 - ✅ Removed all individual CSS files
-- ✅ Removed Netlify configuration
+- ✅ Removed old serverless configurations
 - ✅ Removed migration documentation
 - ✅ Moved images to public/ folder
 
@@ -122,8 +122,8 @@ Visit these URLs to verify functionality:
 
 ### 4. **Deploy**
 Ready to deploy to:
-- **Vercel** (recommended for Next.js)
-- **Netlify** (with Next.js support)
+- **Vercel** (recommended for Next.js, currently deployed)
+- **Hostinger** (currently deployed)
 - **AWS** / **Google Cloud** / **Azure**
 - Any Node.js hosting
 

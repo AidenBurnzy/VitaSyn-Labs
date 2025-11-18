@@ -43,7 +43,7 @@ Visit http://localhost:3000
 ```
 src/
 ├── app/
-│   ├── api/              # API routes (replaces Netlify Functions)
+│   ├── api/              # API routes (serverless functions)
 │   │   ├── auth/         # Login, register, logout
 │   │   ├── cart/         # Cart operations
 │   │   ├── orders/       # Order management

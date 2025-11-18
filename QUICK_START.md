@@ -2,7 +2,7 @@
 
 ## ✅ Everything is Ready!
 
-Your site now works **locally** without needing Netlify or cloud databases. All user data is stored in your browser.
+Your site now works **locally** and all user data is stored in your browser for testing.
 
 ## How to Create an Account
 
@@ -87,7 +87,7 @@ Your account data is stored in your browser's localStorage:
 
 When you're ready to deploy to the internet, we can:
 1. Connect to your Neon database
-2. Deploy to Netlify
+2. Deploy to Vercel or Hostinger
 3. Make everything work online
 
 But for now, **everything works locally!** Just create your account and start testing! 🚀
