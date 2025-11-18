@@ -22,6 +22,20 @@ const nextConfig = {
     ],
     unoptimized: true, // Allow external images without optimization
   },
+  // Configure headers for external images
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: "img-src 'self' data: https: http:;",
+          },
+        ],
+      },
+    ]
+  },
   // Ensure images work in production
   webpack: (config) => {
     config.resolve.fallback = { fs: false, net: false, tls: false };

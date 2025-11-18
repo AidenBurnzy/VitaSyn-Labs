@@ -128,7 +128,17 @@ export default function OrderPage() {
               <div key={product.id} className="product-card">
                 <div className="product-image">
                   {product.images?.[0]?.src ? (
-                    <img src={product.images[0].src} alt={product.name} style={{width: '100%', height: '100%', objectFit: 'contain'}} />
+                    <img 
+                      src={product.images[0].src} 
+                      alt={product.name} 
+                      crossOrigin="anonymous"
+                      loading="lazy"
+                      style={{width: '100%', height: '100%', objectFit: 'contain'}} 
+                      onError={(e) => {
+                        console.error('Image failed to load:', product.images[0].src)
+                        e.currentTarget.src = '/peptide-placeholder.svg'
+                      }}
+                    />
                   ) : (
                     <img src="/peptide-placeholder.svg" alt={product.name} style={{width: '100%', height: '100%', objectFit: 'contain', padding: '20px'}} />
                   )}
